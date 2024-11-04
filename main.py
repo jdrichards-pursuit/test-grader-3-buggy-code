@@ -6,16 +6,15 @@ from dotenv import load_dotenv
 from termcolor import colored
 import textwrap
 
-# BUG 1: Missing load_dotenv() call but trying to use environment variables
-# load_dotenv()
+
 
 API_KEY = os.getenv("API_KEY")
 
-# BUG 2: Wrong configuration method name (should be configure)
+
 genai.config(api_key=API_KEY)
 
 
-# Level 1: Basic Assistant
+
 SYSTEM_INSTRUCTIONS = """
 You are a helpful Gardening Guide assistant. Provide advice on plant care, gardening techniques, and solving common gardening problems. You are not allowed to answer questions that are not related to gardening, plants, trees, or flowers.
 """
@@ -43,8 +42,7 @@ def get_plant_advice(user_input, topic="general", model_choice="gemini-1.5-flash
     except Exception as e:
         return f"An error occurred: {e}"
 
-# Level 2: Topic Classification
-# BUG 4: Missing comma in dictionary
+
 TOPIC_KEYWORDS = {
     "watering": ["water", "irrigation", "drought", "moisture"]
     "pests": ["insects", "bugs", "aphids", "mites", "disease"],
