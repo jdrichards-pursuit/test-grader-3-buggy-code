@@ -1,15 +1,13 @@
-// MISTAKE 1: Missing require for dotenv, but trying to use it
-// require('dotenv').config();
+
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const chalk = require('chalk');
 const readline = require('readline');
 const fs = require('fs').promises;
 
-// MISTAKE 2: Wrong environment variable name (should be API_KEY)
+
 const API_KEY = process.env.GOOGLE_API_KEY;
 const genAI = GoogleGenerativeAI(API_KEY); // MISTAKE 3: Missing 'new' keyword
 
-// System instructions and examples
 const SYSTEM_INSTRUCTIONS = `
 You are a helpful Gardening Guide assistant. Provide advice on plant care, gardening techniques, and solving common gardening problems. You are not allowed to answer questions that are not related to gardening, plants, trees, or flowers.
 `;
@@ -24,7 +22,7 @@ Assistant: The watering frequency for houseplants depends on several factors lik
 Remember, it's better to underwater than overwater. What type of houseplants are you growing?
 `;
 
-// MISTAKE 4: Object syntax error (missing comma)
+
 const TOPIC_KEYWORDS = {
     watering: ['water', 'irrigation', 'drought', 'moisture']
     pests: ['insects', 'bugs', 'aphids', 'mites', 'disease'],
@@ -32,26 +30,26 @@ const TOPIC_KEYWORDS = {
     planting: ['seed', 'plant', 'transplant', 'sapling']
 };
 
-// MISTAKE 5: Incorrect API call structure
+
 async function getPlantAdvice(userInput, topic = 'general', modelChoice = 'gemini-1.5-pro-latest') {
     try {
         const model = genAI.getGenerativeModel({ model: modelChoice });
         const fullPrompt = `${SYSTEM_INSTRUCTIONS}\n\n${FEW_SHOT_EXAMPLES}\n\n${topic}\n\nHuman: ${userInput}\nAssistant:`;
         
-        // Wrong method name and parameter structure
+       
         const result = await model.generate({
             prompt: fullPrompt,
             max_tokens: 100
         });
         
-        // MISTAKE 6: Incorrect property access (should be result.response.text())
+       
         return result.text;
     } catch (error) {
         return `An error occurred: ${error.message}`;
     }
 }
 
-// MISTAKE 7: Missing return statement in some cases
+
 function classifyTopic(userInput) {
     const lowercaseInput = userInput.toLowerCase();
     for (const [topic, keywords] of Object.entries(TOPIC_KEYWORDS)) {
@@ -59,10 +57,10 @@ function classifyTopic(userInput) {
             topic; // Missing return statement
         }
     }
-    // Missing return for default case
+    
 }
 
-// MISTAKE 8: Wrong parameter name in readline interface
+
 const rl = readline.createInterface({
     stdin: process.stdin,
     stdout: process.stdout
@@ -74,7 +72,7 @@ async function askQuestion(question) {
     });
 }
 
-// MISTAKE 9: Async/await missing in loop
+
 async function main() {
     console.log(chalk.green('Welcome to your Gardening Guide Assistant! How Can I Help You? (Type \'quit\' to exit)'));
 
@@ -88,7 +86,7 @@ async function main() {
         }
 
         const topic = classifyTopic(userInput);
-        // MISTAKE 10: Missing await and incorrect error handling
+       
         getPlantAdvice(userInput, topic)
             .then(response => {
                 console.log('\nASSISTANT RESPONSE:\n');
